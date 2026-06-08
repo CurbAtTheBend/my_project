@@ -1,7 +1,122 @@
+import csv
 
-h
-h
+ce = True
+def load_csv(filename):
+    output_list = []
+    with open(filename) as infile:
+        infile = csv.reader(infile)
+        for row in infile:
+            output_list.append(row)
+    return output_list
 
+trivia_questions = load_csv("celebrity_nice_trivia.csv")
+print(f"Loaded {len(trivia_questions)} questions")
+
+class Game:
+    
+    def __init__(self):
+        self.q_idx = 1  # Start at 1 if row 0 is header
+        
+
+    def make_choice(self):
+        """Display the current question and get user's answer."""
+        if self.q_idx >= len(trivia_questions):
+            return None  # No more questions
+        
+        row = trivia_questions[self.q_idx]
+        
+        # Assuming CSV format: question, optionA, optionB, optionC, optionD, correct_answer
+        if len(row) < 6:
+            print("Invalid question format in CSV")
+            return None
+        
+        q = row[0]
+        opts = [row[1], row[2], row[3], row[4]]
+        correct = row[5]
+        
+        print('----------------------------------------')
+        print(f"Question {self.q_idx}: {q}")
+        print('----------------------------------------')
+        for i, opt in enumerate(opts, 1):
+            print(f"  {chr(64+i)}) {opt}")
+        print('----------------------------------------')
+        
+        ans = input("Your answer (A-D, 1-4, or type option): ").strip()
+        return ans
+
+    def check_answer(self, ans):
+        """Validate user's answer and check if correct."""
+        if ans is None or self.q_idx >= len(trivia_questions):
+            return False
+        
+        row = trivia_questions[self.q_idx]
+        if len(row) < 6:
+            return False
+        
+        opts = [row[1], row[2], row[3], row[4]]
+        correct = row[5].upper().strip()
+        ua = ans.upper().strip()
+        
+        # Parse user answer: A-D, 1-4, or option text
+        opt = None
+        if len(ua) == 1 and ua in 'ABCD':
+            opt = opts[ord(ua) - 65]
+        elif ua.isdigit() and 1 <= int(ua) <= 4:
+            opt = opts[int(ua) - 1]
+        else:
+            # Try to match option text
+            for o in opts:
+                if o.strip().upper() == ua:
+                    opt = o
+                    break
+        
+        if opt is None:
+            print("Invalid answer format. Please try again.")
+            return False
+        
+        # Check correctness
+        if opt.strip().upper() == correct or correct in opt.strip().upper():
+            print("✓ Correct!")
+            return True
+        else:
+            print(f"✗ Incorrect! The correct answer was: {correct}")
+            return False
+
+
+    
+
+
+    def play(self):
+        """Main game loop."""
+        score = 0
+        while self.q_idx < len(trivia_questions):
+            ans = self.make_choice()
+            
+            if ans is None:
+                break
+            
+            if self.check_answer(ans):
+                score += 1
+            
+            self.q_idx += 1
+            print()  # Blank line for readability
+        
+        # Game over
+        total = self.q_idx - 1
+        if total > 0:
+            pct = (score / total * 100)
+            print("=" * 40)
+            print(f"GAME OVER!")
+            print(f"Final Score: {score}/{total} ({pct:.1f}%)")
+            print("=" * 40)
+            
+           
+            
+        
+
+
+game = Game()
+game.play()
 
 
 
