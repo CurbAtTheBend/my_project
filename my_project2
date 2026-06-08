@@ -1,6 +1,9 @@
 import csv
 
 ce = True
+turn = 1
+goneto = 0
+
 def load_csv(filename):
     output_list = []
     with open(filename) as infile:
@@ -117,65 +120,3 @@ class Game:
 
 game = Game()
 game.play()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
