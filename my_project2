@@ -1,6 +1,7 @@
 import csv
 
 
+
 def load_csv(filename):
     output_list = []
     with open(filename) as infile:
@@ -13,33 +14,21 @@ trivia_questions = load_csv("celebrity_nice_trivia.csv")
 print(f"Loaded {len(trivia_questions)} questions")
 
 class Game:
-    
     def __init__(self):
-        self.q_idx = 1  # Start at 1 if row 0 is header
-        
+        self.q = trivia_questions
+        pass
 
     def make_choice(self):
-        """Display the current question and get user's answer."""
-    
+        print(q)
+        pass
+        
 
     def check_answer(self, ans):
-        
 
-
+        pass
     def play(self):
-        """Main game loop."""
-        score = 0
-        while self.q_idx < len(trivia_questions):
-            
-            print()  # Blank line for readability
-        
-        # Game over
-        
-        
-            
-           
-            
-        
+        pass
+
 
 
 game = Game()
