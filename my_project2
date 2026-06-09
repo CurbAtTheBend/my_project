@@ -15,11 +15,25 @@ print(f"Loaded {len(trivia_questions)} questions")
 
 class Game:
     def __init__(self):
-        self.q = trivia_questions
+        self.q_ix = 1
         pass
 
     def make_choice(self):
+
+        q = row[0]
         print(q)
+        row = trivia_questions[self.q]
+        opts = [row[1],[2],[3],[4]]
+        correct = [row[5]]
+        print("--------------------")
+        print("question " + self.q_ix + ": " + q )
+
+
+
+
+
+
+
         pass
         
 
@@ -32,4 +46,4 @@ class Game:
 
 
 game = Game()
-game.play()
+game.make_choice()
