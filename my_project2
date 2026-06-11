@@ -1,6 +1,5 @@
+
 import csv
-
-
 
 def load_csv(filename):
     output_list = []
@@ -10,40 +9,67 @@ def load_csv(filename):
             output_list.append(row)
     return output_list
 
-trivia_questions = load_csv("celebrity_nice_trivia.csv")
-print(f"Loaded {len(trivia_questions)} questions")
+#trivia_questions = load_csv("celebrity_nice_trivia.csv")
+#print(f"Loaded {len(trivia_questions)} questions")
+
 
 class Game:
-    def __init__(self):
-        self.q_ix = 1
-        pass
-
-    def make_choice(self):
-
+    def __init__(self, question_file):
+        #self.q_ix = 1 # maybe redundant since using a for loop in run_game method
+        self.question_file = question_file
+        self.questions = []
+        self.score = 0
+      
+    def display_questions(self,question_number):        
+        row = self.questions[question_number]
         q = row[0]
-        print(q)
-        row = trivia_questions[self.q]
-        opts = [row[1],[2],[3],[4]]
-        correct = [row[5]]
+        options = [row[1],row[2],row[3],row[4]]
+        correct = row[5]
         print("--------------------")
-        print("question " + self.q_ix + ": " + q )
+        print("question " + row[0] + ": ")
+        print("A) " + row[1])
+        print("B) " + row[2])
+        print("C) " + row[3])
+        print("D) " + row[4])
 
-
-
-
-
-
-
-        pass
+        print("--------------------")
+        return correct
+    def make_choice(self):
+        ans = input("your answer (1-4):")
+        print(str(ans))
+        return (ans)
         
+    def run_game(self):
+        
+        self.questions = load_csv(self.question_file)
+        print(self.questions)
+        for q in range(len(self.questions)):
+            real_answer = self.display_questions(q)
+            user_answer = self.make_choice()
+            self.check_answer(real_answer,user_answer)
+        finalscore = self.score
+        if finalscore >= 9:
+            print("You Win!")
+            print("Final Score: " + str(self.score))
+        else:
+            print("You Loose!")
+            print("Final Score: " + str(self.score))
+        
+            
+            
 
-    def check_answer(self, ans):
+    def check_answer(self,real_answer, user_answer):
+        
+        
+        if user_answer == real_answer:
+            self.score = self.score + 1
+            print("Correct! score:" + str(self.score))
+        else:
+            print("False! score: " + str(self.score))
+
 
         pass
-    def play(self):
-        pass
+    
 
-
-
-game = Game()
-game.make_choice()
+game = Game("celebrity_nice_trivia.csv")
+game.run_game()
